@@ -2,8 +2,9 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Regexp
 from recipe2grocery.models import User
+import re
 
 
 class RegistrationForm(FlaskForm):
@@ -61,6 +62,10 @@ class RecipeInputForm(FlaskForm):
             render_kw={"placeholder": "Recipe URL"}
     )
     submit = SubmitField('Add Recipe')
+
+    def validate_recipe_url_input(self, recipe_url_input):
+        if re.search(r'https?\:\/\/(www\.)?(allrecipes|foodnetwork)\.com\/.*', str(recipe_url_input)) is None:
+            raise ValidationError("Oops. We don't currently support this recipe platform... Please try again with a different website.")
 
 
 class UpdateProfileForm(FlaskForm):

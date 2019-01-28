@@ -13,8 +13,8 @@
                                 {% if form.recipe_url_input.errors %}
                                     {{ form.recipe_url_input(class="form-control form-control-lg is-invalid") }}
                                     <div class="invalid-feedback">
-                                        {% for error in form.username.errors %}
-                                            <span>{{ error }}</span>
+                                        {% for error in form.recipe_url_input.errors %}
+                                            <span class="recipe-invalid">{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
