@@ -23,21 +23,14 @@ class Recipes(db.Model):
     recipe_url = db.Column(db.String(120))
     #recipe_image = db.Column(db.String(20), default='default_recipe.jpg')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #ingredientslist_item = db.relationship('Ingredients_List', backref='recipes', lazy=True)
-    #shoppinglist_item = db.relationship('Shopping_List', backref='recipes', lazy=True)
+    #This is where a JSON object will store all the ingredients
+    #Create ingredients column below in DB when ready to store this info
+    #ingredients = db.Column(db.String(120))
 
     def __repr__(self):
         return f"{self.recipe_url}"
 
-
-class Ingredients_List(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    ingredient_item = db.Column(db.String(70), nullable=False)
-    #recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.id'), nullable=False)
-
-    def __repr__(self):
-        return f"Ingredients_List('{self.ingredient_item}')"
-
+#Each user has own shopping list and can pull in a recipe's ingredients, then edit as they see fit
 class Shopping_List(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     shoppinglist_item = db.Column(db.String(70), nullable=False)

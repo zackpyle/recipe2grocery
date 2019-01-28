@@ -6,7 +6,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request
 from recipe2grocery import app, db, bcrypt
 from recipe2grocery.forms import RegistrationForm, LoginForm, RecipeInputForm, UpdateProfileForm
-from recipe2grocery.models import User, Recipes, Ingredients_List, Shopping_List
+from recipe2grocery.models import User, Recipes, Shopping_List
 from flask_login import login_user, current_user, logout_user, login_required
 from lxml import html
 
@@ -39,22 +39,21 @@ def recipes_page():
 @app.route('/recipes/add-recipe')
 @login_required
 def add_recipe_page():
-    ## Trying to print recipe ingredients on add-recipe page from the URL typed in on the homepage
     new_recipe = Recipes.query.order_by('-id').first()
     response = requests.get(new_recipe)
     recipe = html.fromstring(response.content)
     # All Recipes
-    if 'allrecipe' in new_recipe:
+    if 'allrecipe' in str(new_recipe):
         ingredient = recipe.xpath('//span[@itemprop="recipeIngredient"]/text()')
-        #print('Ingredients: ', ingredient)
+        print('Ingredients: ', ingredient)
     # Food Network
-    elif 'foodnetwork' in recipe_url:
+    elif 'foodnetwork' in str(new_recipe):
         ingredient = recipe.xpath('//p[@class="o-Ingredients__a-Ingredient"]/text()')
         ingredient_foodnetwork = ([s.replace('\xa0', '') for s in ingredient])
         ingredient = ingredient_foodnetwork
-        #print('Ingredients: ', ingredient)
+        print('Ingredients: ', ingredient)
     else:
-        ## Need to move this to validate_on_submit on homepage
+        ### Need to move this to validate_on_submit on homepage
         print("Oops: We don't currently support this recipe platform. You can manually add the ingredients here.")
     return render_template('add-recipe.html', title="Add Recipe", new_recipe=new_recipe, ingredient=ingredient)
 
