@@ -3,7 +3,7 @@ import secrets
 import requests
 import unicodedata
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, jsonify
 from recipe2grocery import app, db, bcrypt
 from recipe2grocery.forms import RegistrationForm, LoginForm, RecipeInputForm, UpdateProfileForm
 from recipe2grocery.models import User, Recipes, Shopping_List
@@ -120,7 +120,7 @@ def help_page():
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     if current_user.is_authenticated:
-            return redirect(url_for('home_page'))
+        return redirect(url_for('home_page'))
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
