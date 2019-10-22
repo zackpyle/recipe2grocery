@@ -6,7 +6,7 @@ Flask-Login==0.4.1
 SQLAlchemy==1.2.15
 WTForms==2.2.1
 Flask-Bcrypt==0.7.1
-Pillow==5.4.1
+Pillow==6.2.0
 lxml==4.3.0
 requests==2.21.0
 secrets==1.0.2
